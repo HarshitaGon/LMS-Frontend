@@ -19,32 +19,6 @@ export default function MemberDashboard() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  //   useEffect(() => {
-  //     const fetchStats = async () => {
-  //       try {
-  //         const res = await fetch(
-  //           `${process.env.NEXT_PUBLIC_API_URL}/users/dashboard-stats`,
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //             },
-  //           },
-  //         );
-
-  //         if (!res.ok) throw new Error("Failed to fetch dashboard stats");
-
-  //         const data = await res.json();
-  //         setStats(data);
-  //       } catch (error) {
-  //         console.error(error);
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     };
-
-  //     fetchStats();
-  //   }, []);
-
   useEffect(() => {
     const fetchStats = async () => {
       try {
@@ -55,7 +29,7 @@ export default function MemberDashboard() {
         const { token } = JSON.parse(storedUser);
 
         const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/users/dashboard-stats`,
+          `${process.env.NEXT_PUBLIC_API_URL}/dashboard/user`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -80,7 +54,7 @@ export default function MemberDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-[60vh] text-lg font-semibold">
-        Loading your baddie dashboard 💅
+        Loading...
       </div>
     );
   }
@@ -91,12 +65,8 @@ export default function MemberDashboard() {
     <div className="p-6 space-y-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
       {/* HEADER */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">
-          Member Dashboard ✨
-        </h1>
-        <p className="text-gray-500">
-          Track your books, returns & overdue drama
-        </p>
+        <h1 className="text-3xl font-bold text-gray-900">Member Dashboard</h1>
+        <p className="text-gray-500">Track your books, returns & overdue</p>
       </div>
 
       {/* STATS CARDS */}

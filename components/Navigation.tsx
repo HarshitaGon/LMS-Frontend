@@ -39,18 +39,30 @@ export function Navigation() {
                 {/* Member Links */}
                 {user.role?.toUpperCase() === "MEMBER" && (
                   <Link href="/loans" className="hover:text-slate-200">
-                    My Loans
+                    Loans
+                  </Link>
+                )}
+
+                {user.role?.toUpperCase() === "MEMBER" && (
+                  <Link
+                    href="/dashboard/member"
+                    className="hover:text-slate-200"
+                  >
+                    Dashboard
                   </Link>
                 )}
 
                 {/* Admin Links */}
                 {user.role?.toUpperCase() === "ADMIN" && (
                   <>
-                    {/* <Link href="/books/create" className="hover:text-slate-200">
-                      Add Book
-                    </Link> */}
                     <Link href="/admin/loans" className="hover:text-slate-200">
-                      All Loans
+                      Loans
+                    </Link>
+                    <Link
+                      href="/dashboard/admin"
+                      className="hover:text-slate-200"
+                    >
+                      Dashboard
                     </Link>
                     <Link href="/admin/users" className="hover:text-slate-200">
                       Users

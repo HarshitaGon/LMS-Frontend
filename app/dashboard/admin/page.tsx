@@ -27,31 +27,63 @@ interface AdminStats {
   loansOverTime: Array<{ date: string; count: number }>;
 }
 
-export function AdminDashboard({ token }: { token: string }) {
+export default function AdminDashboard({ token }: { token: string }) {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // useEffect(() => {
+  //   const fetchStats = async () => {
+  //     try {
+  //       const data = await apiRequest(
+  //         "/dashboard/admin",
+  //         "GET",
+  //         undefined,
+  //         token,
+  //       );
+  //       setStats(data);
+  //     } catch (error) {
+  //       toast.error(
+  //         error instanceof Error ? error.message : "Failed to load dashboard",
+  //       );
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchStats();
+  // }, [token]);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const data = await apiRequest(
-          "/admin/dashboard-stats",
-          "GET",
-          undefined,
-          token,
+        const storedUser = localStorage.getItem("user");
+
+        if (!storedUser) throw new Error("User not logged in");
+
+        const { token } = JSON.parse(storedUser);
+
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/dashboard/admin`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
         );
+
+        if (!res.ok) throw new Error("Failed to fetch dashboard stats");
+
+        const data = await res.json();
         setStats(data);
       } catch (error) {
-        toast.error(
-          error instanceof Error ? error.message : "Failed to load dashboard",
-        );
+        console.error(error);
       } finally {
         setLoading(false);
       }
     };
 
     fetchStats();
-  }, [token]);
+  }, []);
 
   if (loading) {
     return (

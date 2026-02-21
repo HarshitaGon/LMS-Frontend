@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { AdminDashboard } from "@/components/AdminDashboard";
-import MemberDashboard from "@/components/MemberDashboard";
+// import { AdminDashboard } from "@/components/AdminDashboard";
+// import MemberDashboard from "./memberDashboard/page";
 
 export default function Home() {
   const authContext = useAuth();
@@ -20,14 +20,14 @@ export default function Home() {
   }, [authContext, user, router]);
 
   // Show admin dashboard for ADMIN role
-  if (user && user.role?.toUpperCase() === "ADMIN") {
-    return <AdminDashboard token={user.token} />;
-  }
+  // if (user && user.role?.toUpperCase() === "ADMIN") {
+  //   return <AdminDashboard token={user.token} />;
+  // }
 
   // Show member dashboard for MEMBER role
-  if (user && user.role?.toUpperCase() === "MEMBER") {
-    return <MemberDashboard />;
-  }
+  // if (user && user.role?.toUpperCase() === "MEMBER") {
+  //   return <MemberDashboard />;
+  // }
 
   // Unauthenticated landing page
   if (!user) {
