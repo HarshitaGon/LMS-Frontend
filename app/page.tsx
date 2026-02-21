@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { AdminDashboard } from "@/components/AdminDashboard";
-import { MemberDashboard } from "@/components/MemberDashboard";
+import MemberDashboard from "@/components/MemberDashboard";
 
 export default function Home() {
   const authContext = useAuth();
@@ -26,7 +26,7 @@ export default function Home() {
 
   // Show member dashboard for MEMBER role
   if (user && user.role?.toUpperCase() === "MEMBER") {
-    return <MemberDashboard token={user.token} userName={user.name} />;
+    return <MemberDashboard />;
   }
 
   // Unauthenticated landing page
