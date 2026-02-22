@@ -31,28 +31,6 @@ export default function AdminDashboard({ token }: { token: string }) {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // useEffect(() => {
-  //   const fetchStats = async () => {
-  //     try {
-  //       const data = await apiRequest(
-  //         "/dashboard/admin",
-  //         "GET",
-  //         undefined,
-  //         token,
-  //       );
-  //       setStats(data);
-  //     } catch (error) {
-  //       toast.error(
-  //         error instanceof Error ? error.message : "Failed to load dashboard",
-  //       );
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchStats();
-  // }, [token]);
-
   useEffect(() => {
     const fetchStats = async () => {
       try {
