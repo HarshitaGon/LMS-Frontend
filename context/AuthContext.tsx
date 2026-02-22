@@ -9,38 +9,39 @@ interface User {
   token: string;
 }
 
-const AuthContext = createContext<{
+interface AuthContextType {
   user: User | null;
+  loading: boolean;
   login: (user: User) => void;
   logout: () => void;
-} | null>(null);
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isHydrated, setIsHydrated] = useState(false);
+  const [loading, setLoading] = useState(true); // 👈 renamed & fixed
 
   useEffect(() => {
-    const hydrate = async () => {
-      const stored = localStorage.getItem("user");
-      if (stored) {
-        try {
-          const parsed = JSON.parse(stored);
-          if (parsed && parsed.role)
-            parsed.role = String(parsed.role).toUpperCase();
-          setUser(parsed);
-        } catch {}
-      }
-      setIsHydrated(true);
-    };
-    hydrate();
+    const stored = localStorage.getItem("user");
+
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (parsed?.role) {
+          parsed.role = String(parsed.role).toUpperCase();
+        }
+        setUser(parsed);
+      } catch {}
+    }
+
+    setLoading(false);
   }, []);
 
   const login = (data: User) => {
     const normalized = {
       ...data,
-      name: data.name,
-      email: data.email,
-      role: data.role?.toUpperCase(),
+      role: data.role.toUpperCase(),
     };
     localStorage.setItem("user", JSON.stringify(normalized));
     setUser(normalized);
@@ -51,15 +52,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
   };
 
-  if (!isHydrated) {
-    return <>{children}</>;
-  }
-
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error("useAuth must be used inside AuthProvider");
+  }
+  return ctx;
+};

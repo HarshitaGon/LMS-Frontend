@@ -50,7 +50,7 @@ export default function RegisterPage() {
     return true;
   };
 
-  const handleRegister = async (e: React.FormEvent) => {
+  const handleRegister = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
     if (!validateForm()) {
@@ -59,25 +59,14 @@ export default function RegisterPage() {
 
     setLoading(true);
     try {
-      const data = await apiRequest("/auth/signup", "POST", {
+      await apiRequest("/auth/signup", "POST", {
         name,
         email,
         password,
       });
 
-      if (data.accessToken) {
-        if (login) {
-          login({
-            email,
-            role: "MEMBER",
-            token: data.accessToken,
-          });
-        }
-        toast.success(
-          "Account created successfully! Welcome to Library Management System",
-        );
-        router.push("/books");
-      }
+      toast.success("Registration successful! Please login to continue.");
+      router.push("/login");
     } catch (error) {
       const errorMsg =
         error instanceof Error ? error.message : "Registration failed";

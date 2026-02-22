@@ -62,7 +62,7 @@ export default function MemberDashboard() {
   if (!stats) return null;
 
   return (
-    <div className="p-6 space-y-8 bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
+    <div className="p-6 space-y-8 bg-linear-to-br from-gray-50 to-gray-100 min-h-screen">
       {/* HEADER */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">Member Dashboard</h1>
@@ -101,7 +101,7 @@ export default function MemberDashboard() {
       <div className="bg-white rounded-2xl shadow-md p-6">
         <h2 className="text-xl font-semibold mb-4">Loan Status Breakdown</h2>
 
-        <div className="h-[300px]">
+        <div className="h-75">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -120,10 +120,6 @@ export default function MemberDashboard() {
     </div>
   );
 }
-
-/* ----------------------- */
-/* STAT CARD COMPONENT */
-/* ----------------------- */
 
 function StatCard({
   title,

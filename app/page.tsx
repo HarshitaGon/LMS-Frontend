@@ -3,33 +3,22 @@
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
-// import { AdminDashboard } from "@/components/AdminDashboard";
-// import MemberDashboard from "./memberDashboard/page";
 
 export default function Home() {
-  const authContext = useAuth();
-  const user = authContext?.user;
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   useEffect(() => {
-    if (authContext && !user) {
-      router.push("/login");
+    if (!loading && user) {
+      router.push("/books");
     }
-  }, [authContext, user, router]);
+  }, [loading, user, router]);
 
-  // Show admin dashboard for ADMIN role
-  // if (user && user.role?.toUpperCase() === "ADMIN") {
-  //   return <AdminDashboard token={user.token} />;
-  // }
+  if (loading) {
+    return null;
+  }
 
-  // Show member dashboard for MEMBER role
-  // if (user && user.role?.toUpperCase() === "MEMBER") {
-  //   return <MemberDashboard />;
-  // }
-
-  // Unauthenticated landing page
   if (!user) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-linear-to-b from-slate-50 to-slate-100 px-4">
