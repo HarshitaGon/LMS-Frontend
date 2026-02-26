@@ -25,7 +25,7 @@ interface BookFormProps {
   token?: string;
   isEdit?: boolean;
   onClose?: () => void;
-  onSuccess?: () => void; // called after successful add/edit
+  onSuccess?: () => void;
 }
 
 export function BookForm({
@@ -36,7 +36,7 @@ export function BookForm({
   onSuccess,
 }: BookFormProps) {
   const router = useRouter();
-  const [loading, setLoading] = useState(isEdit);
+  const [loading, setLoading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
@@ -44,11 +44,11 @@ export function BookForm({
     quantity: 1,
   });
 
-  useEffect(() => {
-    if (isEdit && bookId && token) {
-      fetchBook();
-    }
-  }, [isEdit, bookId, token]);
+  // useEffect(() => {
+  //   if (isEdit && bookId && token) {
+  //     fetchBook();
+  //   }
+  // }, [isEdit, bookId, token]);
 
   const fetchBook = async () => {
     try {
